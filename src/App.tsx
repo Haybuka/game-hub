@@ -5,23 +5,23 @@ import Message from "./message";
 import ListGroup from "./components/ListGroup";
 import Alert from "./components/Alert";
 import Button from "./components/Button";
-
+import 'bootstrap/dist/css/bootstrap.css'
 function App() {
-  const items = ["New York", "London", "Paris"];
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  //for Objects
   const [drink, setDrink] = useState({ title: "Americano", price: 5 });
   const [customer, setCustomer] = useState({
     name: "Johnero",
     price: 5,
-    address: { city: "Francisco" , zipCode : 1},
+    address: { city: "Francisco", zipCode: 1 },
   });
-  const handleSelectItem = (item: string) => {
-    alert(item);
-  };
 
-  const handleAlert = () => {
-    setIsOpen((previous) => !previous);
-  };
+  //for Arrays
+  const [bugs, setBugs] = useState([
+    { id: 1, title: "Bug 1", fixed: false },
+    { id: 2, title: "Bug 2", fixed: false },
+  ]);
+
+  // Updating Objects
   const handleCustomerChange = () => {
     setCustomer({
       ...customer,
@@ -39,21 +39,30 @@ function App() {
     };
     setDrink(newDrink);
   };
+
+  //Updating Arrays
+  const handleBugFix = (id:number) => {
+    console.log(id)
+    let bugFix = bugs.map(bug => bug.id === id ? {...bug,fixed:!bug.fixed} : bug)
+    console.log(bugFix)
+    setBugs(previous => bugFix)
+  };
   return (
     <div className="App">
-      {isOpen && (
-        <Alert color="secondary" onClick={handleAlert}>
-          This is an alert
-        </Alert>
-      )}
-      <Button color="danger" onClick={handleAlert}>
-        {isOpen ? "Close Alert" : "Open Alert"}
-      </Button>
-
       <p onClick={handleDrinkIncrease}>
         <span>{drink.title}</span>
         <span>{drink.price}</span>
       </p>
+      <section>
+        {bugs.map((bug) => (
+          <p key={bug.id} className="border py-2">
+            <span>{bug.id}</span>
+            <span className=" mx-4 inline-block">{bug.title}</span>
+            <span>{bug.fixed ? 'fixed' : 'not fixed'}</span>
+            <button onClick={() => handleBugFix(bug.id)}>fix</button>
+          </p>
+        ))}
+      </section>
     </div>
   );
 }
