@@ -1,27 +1,46 @@
-import React, { FormEvent, useRef } from "react";
+import React, { FormEvent, useRef, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import {z} from 'zod'
+import {zodResolver} from '@hookform/resolvers/zod'
+
+const schema = z.object({
+    name:z.string().min(3,{message:'Name must be at least 3 chars'}),
+    age : z.number().min(18)
+})
+
+type FormData = z.infer<typeof schema>;
 
 const Form = () => {
-  const nameRef = useRef<HTMLInputElement>(null);
-  const ageRef = useRef<HTMLInputElement>(null);
-  const person:{name:string | undefined,age:number | undefined} = {name : '', age : 0}
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    person.name = nameRef?.current?.value
-    person.age = ageRef?.current?.valueAsNumber
-  };
+  const { register,handleSubmit,formState:{errors} } = useForm<FormData>({resolver:zodResolver(schema)});
+ 
+  const onSubmit = (data:FieldValues) => console.log(data)
   return (
-    <form action="" className="p-4" onSubmit={handleSubmit}>
+    <form action="" className="p-4" onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-3">
         <label htmlFor="name" className="form-label">
           Name
         </label>
-        <input ref={nameRef} id="name" type="text" className="form-control" />
+        <input
+          id="name"
+          type="text"
+          className="form-control"
+          {...register("name")}
+        />
+        {errors.name && <p className="text-danger my-2">{errors.name.message}</p>}
       </div>
       <div className="mb-3">
         <label htmlFor="age" className="form-label">
           Age
         </label>
-        <input ref={ageRef} id="age" type="number" className="form-control" />
+        <input
+          id="age"
+          type="number"
+          className="form-control"
+          {...register("age")}
+
+        />
+        {errors.age && <p className="text-danger my-2">{errors.age.message}</p>}
+
       </div>
       <button type="submit" className="btn btn-primary">
         submit
