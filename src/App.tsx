@@ -1,12 +1,12 @@
 import { useState } from "react";
+import { Button, ButtonGroup } from '@chakra-ui/react'
 import "./App.css";
-import Form from "./components/form/Form";
 
 function App() {
   return (
-    <>
-      <Form />
-    </>
+    <div>
+      <Button colorScheme='blue'>Button</Button>
+    </div>
   );
 }
 

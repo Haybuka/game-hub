@@ -3,7 +3,7 @@ import reactLogo from "./assets/react.svg";
 import "./App.css";
 import produce from "immer";
 import "bootstrap/dist/css/bootstrap.css";
-import Expandable from "./components/Expandable";
+import Expandable from "./components/demo/Expandable";
 function    Basics() {
   //for Objects
   const [drink, setDrink] = useState({

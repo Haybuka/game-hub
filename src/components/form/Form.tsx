@@ -19,7 +19,7 @@ const Form = () => {
       <div className="mb-3">
         <label htmlFor="name" className="form-label">
           Name
-        </label>
+        </label> 
         <input
           id="name"
           type="text"
