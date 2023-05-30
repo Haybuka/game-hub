@@ -1,7 +1,9 @@
 import { useState } from "react";
 import {
+  Box,
   Button,
   ButtonGroup,
+  Flex,
   Grid,
   GridItem,
   HStack,
@@ -19,7 +21,8 @@ import SortSelector from "./components/sortSelector/sortSelector";
 export interface GameQuery {
   genre: Genre | null;
   platform: Platform | null;
-  order : string | null
+  order : string;
+  searchText : string;
 }
 
 function App() {
@@ -37,6 +40,11 @@ function App() {
     setGameQuery({...gameQuery,order})
   }
 
+  const handleSearchInput = (searchText:string) => {
+    console.log(searchText)
+  setGameQuery({...gameQuery,searchText})
+  }
+
   return (
     <div>
       <Grid
@@ -50,7 +58,7 @@ function App() {
         }}
       >
         <GridItem area="nav">
-          <Navbar />
+          <Navbar onSearch={handleSearchInput}/>
         </GridItem>
         <Show above="lg">
           <GridItem area="aside" paddingX="5px">
@@ -62,13 +70,15 @@ function App() {
         </Show>
 
         <GridItem area="main">
-          <HStack marginBottom={5} paddingX={5}>
-            <PlatformSelector
+          <Flex marginBottom={5} paddingX={5}>
+          <Box marginRight={5}>
+          <PlatformSelector
               selectedPlatform={gameQuery.platform}
               onSelectPlatform={handlePlatformSelect}
             />
+          </Box>
             <SortSelector sortOrder={gameQuery.order} onSelectSortOrder={handleSelectSort} />
-          </HStack>
+          </Flex>
           <GameGrid gameQuery={gameQuery} />
         </GridItem>
       </Grid>

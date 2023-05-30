@@ -5,7 +5,7 @@ import { Platform } from "../../hooks/useGames";
 
 interface Props {
   onSelectSortOrder: (sortOrder: string) => void;
-  sortOrder : string | null
+  sortOrder : string
 }
 
 const SortSelector = ({ onSelectSortOrder,sortOrder }: Props) => {
